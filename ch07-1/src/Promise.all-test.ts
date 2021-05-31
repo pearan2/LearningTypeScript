@@ -10,3 +10,16 @@ import { promises } from "dns";
 const getAllResolvedResult = (<T>(promises: Promise<T>[]) : Promise<T[]> => 
 	Promise.all(promises)
 )
+
+getAllResolvedResult<any>([Promise.resolve(true), Promise.resolve('hello')])
+	.then((result : any[]) : void => {
+		console.log(result)
+	})
+
+getAllResolvedResult<any>([Promise.resolve(1), Promise.reject(new Error('error22222')), Promise.reject(new Error('error!!'))])
+	.then((result:any[]) : void => { 	// 호출되지 않는다.
+		console.log(result)
+	})
+	.catch((error: Error) : void => {	// error22222
+		console.log(error.message)
+	})
